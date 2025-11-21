@@ -1,41 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Weather_Now</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <div class="card">
-    <div class="search">
-      <input type="text" placeholder="enter city name" 
-      spellcheck="false">
-      <button><img src= "images/search.png"></button>
-    </div>
-    <div class="weather">
-      <img src="images/rain.png" class=" weather-icon">
-      <h1 class="temp">22°C</h1>
-      <h2 class="city">Santiago</h2>
-      <div class="details">
-        <div class="col">
-          <img src="images/humidity.png">
-          <div>
-            <p class="humidity">50%</p>
-            <p>Humidity</p>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Weather_Now</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="card">
+      <div class="search">
+        <input type="text" placeholder="enter city name" spellcheck="false" />
+        <button><img src="images/search.png" /></button>
+      </div>
+      <div class="weather">
+        <img src="images/rain.png" id="weather-icon" />
+        <!-- <div id="weather-icon">☁️</div> -->
+        <h1 id="temp">22°C</h1>
+        <h2 id="city">Santiago</h2>
+        <p id="country">SE</p>
+        <p id="description">Mulet</p>
+        <p id="updated">Senast uppdaterad: 2025-11-02 09:00</p>
+        <div class="details">
+          <div class="colmn">
+            <img src="images/humidity.png" />
+            <div>
+              <p class="humidity">50%</p>
+              <p>Humidity</p>
+            </div>
           </div>
-        </div>
-        <div class="col">
-          <img src="images/wind.png">
-          <div>
-            <p class="wind">15km/h</p>
-            <p>Wind Speed</p>
+          <div class="colmn">
+            <img src="images/wind.png" />
+            <div>
+              <p class="wind">15km/h</p>
+              <p>Wind Speed</p>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- <script src="script.js"></script> -->
-</body>
+    <script src="app.js"></script>
+  </body>
 </html>
