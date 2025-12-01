@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Weather_Now</title>
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="./css/style.css" />
   </head>
   <body>
     <div class="card">
@@ -13,13 +13,13 @@
         <button><img src="images/search.png" /></button>
       </div>
       <div class="weather">
-        <img src="images/rain.png" id="weather-icon" />
+        <img src="./images/rain.png" id="weather-icon" />
         <!-- <div id="weather-icon">☁️</div> -->
-        <h1 id="temp">22°C</h1>
-        <h2 id="city">Santiago</h2>
-        <p id="country">SE</p>
-        <p id="description">Mulet</p>
-        <p id="updated">Senast uppdaterad: 2025-11-02 09:00</p>
+        <h1 id="temp"></h1>
+        <h2 id="city"></h2>
+        <p id="country"></p>
+        <p id="description"></p>
+        <p id="updated"></p>
         <div class="details">
           <div class="colmn">
             <img src="images/humidity.png" />
@@ -39,6 +39,6 @@
       </div>
     </div>
 
-    <script src="app.js"></script>
+    <script defer src="./main.js" type="module"></script>
   </body>
 </html>
