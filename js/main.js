@@ -1,5 +1,14 @@
 // main.js
-import { createCordinatesURL, createTemperatureURL } from "./services/api.js";
+
+import { createCordinatesURL, createTemperatureURL } from "../services/api.js";
+import { setupEvents } from "./ui/events.js";
+import { OpenMeteoApi } from "../services/OpenMeteoApi.js";
+import { WeatherService } from "../services/WeatherService.js";
+
+const apiClient = new OpenMeteoApi();
+export const weatherService = new WeatherService(apiClient);
+
+setupEvents();
 
 const searchInput = document.querySelector(".search input");
 const searchButton = document.querySelector(".search button");
