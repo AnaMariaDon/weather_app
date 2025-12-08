@@ -23,7 +23,7 @@ async function handleSearch() {
   if (!city) return;
 
 
-  try {
+ /* try {
   const fakeWeather = {
     temperature: 12,
     city: city,
@@ -33,11 +33,11 @@ async function handleSearch() {
     humidity: 66,
     windSpeed: 5,
     icon: "rain"
-  };
+  };  */
 
   try {
     console.log("Söker stad:", city); 
-
+  
     // 1. Hämta koordinater
     const coordURL = createCordinatesURL(city);
     console.log("Geo-URL:", coordURL);
@@ -91,17 +91,17 @@ async function handleSearch() {
       weather.temperature ?? weather.temp ?? 0
     )}°C`;
 
-    /*cityEl.textContent = weather.city || city;
+    cityEl.textContent = weather.city || city;
     countryEl.textContent = weather.countryCode || weather.country || "";
     descEl.textContent = weather.description || weather.weatherDesc || "";
     updatedEl.textContent = `Senast uppdaterad: ${
       weather.updatedAt || weather.time || ""
     }`;
     humidityEl.textContent = `${weather.humidity ?? weather.hum ?? 0}%`;
-    windEl.textContent = `${weather.windSpeed ?? weather.wind ?? 0} km/h`;  */
+    windEl.textContent = `${weather.windSpeed ?? weather.wind ?? 0} km/h`;  
 
 
-
+/*
   tempEl.textContent = `${fakeWeather.temperature}°C`;
   cityEl.textContent = fakeWeather.city;
   countryEl.textContent = fakeWeather.countryCode;
@@ -110,21 +110,18 @@ async function handleSearch() {
   humidityEl.textContent = `${fakeWeather.humidity}%`;
   windEl.textContent = `${fakeWeather.windSpeed} km/h`;
 
-
+*/
     const iconKey =
       weather.icon ||
       weather.iconCode ||
       weather.condition ||
       "clouds"; // fallback-nyckel
 
-    //iconEl.src = `./images/${iconKey}.png`;
-     iconEl.src = "./images/rain.png";
+    iconEl.src = `./images/${iconKey}.png`;
+    // iconEl.src = "./images/rain.png";
   } catch (err) {
     console.error("Fel i handleSearch:", err);
     alert("Kunde inte hämta väderdata.");
-  }  } catch (err) {
-    console.error("Ov väntat fel i handleSearch:", err);
-    alert("Ett oväntat fel inträffade.");
-  }
+  }  
 
 }
