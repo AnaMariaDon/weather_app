@@ -1,96 +1,130 @@
-@media (min width: 600px){}
+/* Reset + Font */
 * {
   margin: 0;
   padding: 0;
-  font-family: 'Poppins', sans-serif;
   box-sizing: border-box;
+  font-family: "Segoe UI", Arial, sans-serif;
 }
 
-body{
-  background: #222 ;
+body {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 40px 15px;
+  background: linear-gradient(135deg, #74b9ff, #4499d1, #0a449b);
+  background-size: 200% 200%;
+  animation: skyMove 15s ease infinite;
 }
 
-.card {
-  width: 90%;
-  max-width: 470px;
-  background: linear-gradient(135deg, #00feba, #5b548a);
-  color: #fff;
-  margin: 100px auto 0;
-  border-radius: 20px;
-  padding: 40px 35px;
+@keyframes skyMove {
+  0% { background-position: 0% 0%; }
+  50% { background-position: 100% 100%; }
+  100% { background-position: 0% 0%; }
+}
+
+/* Container qendrore */
+.container {
+  width: 100%;
+  max-width: 380px;
+  padding: 25px;
+  background: rgba(255, 255, 255, 0.22);
+  backdrop-filter: blur(12px);
+  border-radius: 18px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.22);
   text-align: center;
 }
 
-.search{
+/* Titulli */
+h1 {
+  color: #ffffff;
+  font-size: 1.9rem;
+  margin-bottom: 22px;
+  font-weight: 700;
+}
+
+/* Input */
+input {
   width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  padding: 12px;
+  border-radius: 10px;
+  font-size: 1rem;
+  margin-bottom: 15px;
+  border: 2px solid #dfe6e9;
+  background: rgba(255, 255, 255, 0.9);
 }
 
-.search input{
-  border:0;
-  outline: 0;
-  background: #ebfffc;
+input::placeholder {
   color: #555;
-  padding: 10px 25px;
-  height: 60px;
-  border-radius: 30px;
-  flex:1;
-  margin-right: 16px;
-  font-size: 18px;
 }
 
-.search button{
-  border:0;
-  outline: 0;
-  background: #ebfffc;
-  border-radius: 50%;
-  width: 60px;
-  height: 60px;
+/* Fokus i dukshëm */
+input:focus,
+button:focus {
+  outline: 3px solid #ffdd59;
+  outline-offset: 2px;
+}
+
+/* Button */
+button {
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  border: none;
+  background: #0d6efd;
+  color: white;
+  font-size: 1.1rem;
   cursor: pointer;
+  font-weight: 600;
+  transition: 0.3s ease;
 }
 
-.search button img{
-  width: 16px;
+button:hover {
+  background: #4daaff;
 }
 
-#weather-icon{
-  width:170px;
-  margin-top: 30px;
+button:active {
+  transform: scale(0.97);
 }
 
-#temp{
-  font-size: 80px;
-  font-weight: 500;
+/* Weather card */
+.card {
+  margin-top: 25px;
+  padding: 20px;
+  background: rgba(255,255,255,0.25);
+  border-radius: 15px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+  color: #1e272e;
+  animation: fadeIn 0.4s ease;
 }
 
-#city{
-  font-size: 45px;
-  font-weight: 400;
-  margin-top: -10px;
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-.details{
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 20px;
-  margin-top: 50px;
+.card h2 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
 }
 
-.colmn{
-  display: flex;
-  align-items: center;
-  text-align: left;
+.card p {
+  font-size: 1.1rem;
+  margin: 8px 0;
 }
 
-.colmn img{
-  width: 40px;
-  margin-right: 10px;
+.card small {
+  color: #2d3436;
 }
 
-#humidity, #wind{
-  font-size: 28px;
-  margin-top: -6px;
+/* Hidden class */
+.hidden {
+  display: none;
+}
+
+/* Mobile friendly */
+@media (max-width: 450px) {
+  h1 { font-size: 1.6rem; }
+  .container { padding: 20px; }
 }
