@@ -1,4 +1,6 @@
-@media (min width: 600px){}
+@media (min-width: 600px){}
+
+
 * {
   margin: 0;
   padding: 0;
@@ -93,4 +95,76 @@ body{
 #humidity, #wind{
   font-size: 28px;
   margin-top: -6px;
+}
+
+.header__unit {
+  grid-area: 1 / 8 / 2 / 12;
+
+}
+.header__brand {
+  font-family: "Cherry Bomb One", cursive;
+  font-weight: 400;
+  font-size: 1rem; 
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #fff;
+  text-shadow: 0 1px 0 rgba(0,0,0,0.25);
+  white-space: nowrap;
+}
+.header__unit {
+  align-self: center;
+  justify-self: end;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding-right: 12px;
+
+}
+
+.unit-label {
+  font-family: "Inter", sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #ffffff;
+  opacity: 0.8;
+
+}
+
+.unit-switch__input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+ 
+}
+
+.unit-switch__track {
+  width: 48px;
+  height: 24px;
+  border-radius: 999px;
+  background: var(--grey);
+  position: relative;
+  box-shadow: inset 0 0 0 2px rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+  background-color: rgb(192, 155, 60);
+}
+
+.unit-switch__track::after {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--dark-blue);
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.25);
+  transition: transform 160ms ease;
+  background-color: aquamarine;
+}
+
+.unit-switch__input:checked + .unit-switch__track::after {
+  transform: translateX(24px);
+  background-color: #5b548a;
 }
