@@ -1,4 +1,4 @@
-/* Reset + Font */
+
 * {
   margin: 0;
   padding: 0;
@@ -11,7 +11,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  padding: 40px 15px;
+  padding: 100px 40px;
   background: linear-gradient(135deg, #74b9ff, #4499d1, #0a449b);
   background-size: 200% 200%;
   animation: skyMove 15s ease infinite;
@@ -23,7 +23,7 @@ body {
   100% { background-position: 0% 0%; }
 }
 
-/* Container qendrore */
+
 .container {
   width: 100%;
   max-width: 380px;
@@ -35,7 +35,7 @@ body {
   text-align: center;
 }
 
-/* Titulli */
+
 h1 {
   color: #ffffff;
   font-size: 1.9rem;
@@ -58,14 +58,7 @@ input::placeholder {
   color: #555;
 }
 
-/* Fokus i dukshëm */
-input:focus,
-button:focus {
-  outline: 3px solid #ffdd59;
-  outline-offset: 2px;
-}
 
-/* Button */
 button {
   width: 100%;
   padding: 12px;
@@ -124,7 +117,7 @@ button:active {
 }
 
 /* Mobile friendly */
-@media (max-width: 450px) {
+@media (max-width: 600px) {
   h1 { font-size: 1.6rem; }
   .container { padding: 20px; }
 }
