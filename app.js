@@ -64,14 +64,80 @@ function searchCity() {
     return;
   }
 
-  const city = findCityByName(cityName);
+   const city = findCityByName(cityName);
   const weather = getWeatherForCity(city);
   displayWeather(city, weather);
+
+  // rendera veckoprognos baserat på vald stad
+  const weekly = getWeeklyMockForCity(city);
+  renderWeeklyForecast(weekly);
 }
 
 if (searchButton) searchButton.addEventListener('click', searchCity);
-if (searchInput) searchInput.addEventListener('keypress', function(event) {
+if (searchInput) {
+   searchInput.addEventListener('keypress', function(event) {
   if (event.key === 'Enter') searchCity();
 });
+}
 
-/* End of app.js */
+// --- Weekly forecast (mock) --- //
+function generateWeeklyFromCurrent() {
+  const result = {};
+  const now = Math.floor(Date.now() / 1000);
+  CITIES.forEach(city => {
+    const key = `${city.lat.toFixed(4)},${city.lon.toFixed(4)}`;
+    const base = WEATHER[key] || {};
+    const baseTemp = typeof base.temp === 'number' ? base.temp : 8;
+    const baseDesc = base.description || 'Varierande';
+    const baseIcon = base.icon || 'clouds.png';
+    const days = [];
+    for (let i = 0; i < 7; i++) {
+      const dt = now + i * 86400;
+      const variance = (i % 5) - 2; // -2..+2 deterministic
+      const max = baseTemp + variance + 1;
+      const min = baseTemp + variance - 3;
+      days.push({
+        dt,
+        temp: { max, min },
+        weather: [{ description: baseDesc, icon: baseIcon }]
+      });
+    }
+    result[key] = days;
+  });
+  return result;
+}
+const WEEKLY = generateWeeklyFromCurrent();
+
+function getWeeklyMockForCity(city) {
+  if (!city) return [];
+  const key = `${city.lat.toFixed(4)},${city.lon.toFixed(4)}`;
+  return WEEKLY[key] || [];
+}
+
+function formatDay(dtUnix) {
+  return new Date(dtUnix * 1000).toLocaleDateString('sv-SE', { weekday: 'short', day: 'numeric', month: 'short' });
+}
+
+function renderWeeklyForecast(daily) {
+  const grid = document.getElementById('weeklyGrid');
+  const container = document.getElementById('weekly');
+  if (!grid || !container) return;
+  if (!daily || daily.length === 0) {
+    container.classList.add('hidden');
+    grid.innerHTML = '';
+    return;
+  }
+  grid.innerHTML = daily.map(d => {
+    const icon = d.weather[0].icon;
+    const desc = d.weather[0].description;
+    return `
+      <div class="day">
+        <div class="day-name">${formatDay(d.dt)}</div>
+        <img src="images/${icon}" alt="${desc}">
+        <div class="temp">${Math.round(d.temp.max)}° / ${Math.round(d.temp.min)}°</div>
+        <small>${desc}</small>
+      </div>`;
+  }).join('');
+  container.classList.remove('hidden');
+}
+// --- End weekly --- //

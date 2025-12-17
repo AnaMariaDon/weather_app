@@ -115,6 +115,25 @@ button:active {
 .hidden {
   display: none;
 }
+.weekly { margin-top: 20px; }
+.weekly-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+@media (min-width: 600px) {
+  .weekly-grid { grid-template-columns: repeat(3, 1fr); }
+}
+.weekly .day {
+  background: rgba(255,255,255,0.18);
+  padding: 10px;
+  border-radius: 10px;
+  text-align: center;
+}
+.weekly .day img { width: 60px; height: auto; }
+.weekly .temp { font-weight:700; margin-top:6px; }
+
+
 
 /* Mobile friendly */
 @media (max-width: 600px) {
