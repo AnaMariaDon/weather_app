@@ -140,3 +140,15 @@ button:active {
   h1 { font-size: 1.6rem; }
   .container { padding: 20px; }
 }
+
+/* Visually hidden (for screen readers) */
+.visually-hidden {
+  position: absolute !important;
+  height: 1px; width: 1px;
+  overflow: hidden;
+  clip: rect(1px, 1px, 1px, 1px);
+  white-space: nowrap;
+  border: 0;
+  padding: 0;
+  margin: -1px;
+}

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="sv">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,15 +8,18 @@
 </head>
 <body>
     <div class="container">
-        <h1>Väderapp</h1>   
-    <input id="cityInput" type="text" placeholder="Ange stad"/>
- <button id="searchBtn">Sök</button>
- <div id="weatherResult" class ="card hidden">
-    <h2 id="cityNName"></h2>
-    <p id="temperature"></p>    
-    <p id="description"></p>
-    <span id="icon"></span>
-    <p id="updatedTime"></p>
+        <h1>Väderapp</h1>
+    <form id="searchForm" aria-label="Sök väder för stad">
+      <label for="cityInput" class="visually-hidden">Stad</label>
+      <input id="cityInput" name="city" type="text" placeholder="Ange stad" />
+      <button id="searchBtn" type="submit">Sök</button>
+    </form>
+    <div id="weatherResult" class="card hidden" role="region" aria-labelledby="cityNName">
+      <h2 id="cityNName"></h2>
+      <p><strong>Temperatur:</strong> <span id="temperature" aria-live="polite">—</span> °C</p>
+      <p id="description" aria-live="polite"></p>
+      <span id="icon" aria-hidden="true"></span>
+      <p id="updatedTime"></p>
 <!-- Weekly forecast -->
 <div class="card weekly hidden" id="weekly">
   <h3>7-dagars prognos</h3>

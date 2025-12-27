@@ -80,6 +80,12 @@ if (searchInput) {
 });
 }
 
+const searchForm = document.querySelector('#searchForm');
+if (searchForm) searchForm.addEventListener('submit', function(e) {
+  e.preventDefault();
+  searchCity();
+});
+
 // --- Weekly forecast (mock) --- //
 function generateWeeklyFromCurrent() {
   const result = {};
