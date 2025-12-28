@@ -7,16 +7,18 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <a href="#searchForm" class="skip-link">Hoppa till sök</a>
     <div class="container">
         <h1>Väderapp</h1>
     <form id="searchForm" aria-label="Sök väder för stad">
       <label for="cityInput" class="visually-hidden">Stad</label>
       <input id="cityInput" name="city" type="text" placeholder="Ange stad" />
       <button id="searchBtn" type="submit">Sök</button>
+      <p class="visually-hidden">Tips: använd tangentbordet — tryck <strong>Enter</strong> i rutan för att söka.</p>
     </form>
     <div id="weatherResult" class="card hidden" role="region" aria-labelledby="cityNName">
       <h2 id="cityNName"></h2>
-      <p><strong>Temperatur:</strong> <span id="temperature" aria-live="polite">—</span> °C</p>
+      <p><strong>Temperatur:</strong> <span id="temperature" aria-live="polite">—</span> </p>
       <p id="description" aria-live="polite"></p>
       <span id="icon" aria-hidden="true"></span>
       <p id="updatedTime"></p>
