@@ -121,8 +121,12 @@ function getWeeklyMockForCity(city) {
 }
 
 function formatDay(dtUnix) {
-  return new Date(dtUnix * 1000).toLocaleDateString('sv-SE', { weekday: 'short', day: 'numeric', month: 'short' });
+  const day = new Date(dtUnix * 1000)
+    .toLocaleDateString('sv-SE', { weekday: 'long', day: 'numeric', month: 'short' });
+
+return day.charAt(0).toUpperCase() + day.slice(1);
 }
+
 
 function renderWeeklyForecast(daily) {
   const grid = document.getElementById('weeklyGrid');
@@ -133,17 +137,53 @@ function renderWeeklyForecast(daily) {
     grid.innerHTML = '';
     return;
   }
-  grid.innerHTML = daily.map(d => {
+  grid.innerHTML = daily.map((d, i) => {
     const icon = d.weather[0].icon;
     const desc = d.weather[0].description;
+    const label = `Prognos ${formatDay(d.dt)}: ${Math.round(d.temp.max)}° / ${Math.round(d.temp.min)}°, ${desc}`;
     return `
-      <div class="day">
+      <button class="day" type="button" data-index="${i}" aria-label="${label}">
         <div class="day-name">${formatDay(d.dt)}</div>
         <img src="images/${icon}" alt="${desc}">
         <div class="temp">${Math.round(d.temp.max)}° / ${Math.round(d.temp.min)}°</div>
         <small>${desc}</small>
-      </div>`;
+      </button>`;
   }).join('');
   container.classList.remove('hidden');
+
+  // Click handler (replace previous handlers to avoid duplicates)
+  grid.onclick = function(e) {
+    const btn = e.target.closest('.day');
+    if (!btn) return;
+    document.querySelectorAll('.day').forEach(d=>d.classList.remove('active'));
+    btn.classList.add('active');
+    // Optionally: focus stays on the button, or you could show detail info
+  };
+
+  // Arrow-key navigation for weekly buttons
+  grid.onkeydown = function(e) {
+    const keys = ['ArrowRight','ArrowLeft','ArrowDown','ArrowUp','Home','End'];
+    if (!keys.includes(e.key)) return;
+    const buttons = Array.from(grid.querySelectorAll('.day'));
+    if (buttons.length === 0) return;
+    const current = document.activeElement;
+    let idx = buttons.indexOf(current);
+    if (idx === -1) return;
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+      e.preventDefault();
+      const next = buttons[(idx + 1) % buttons.length];
+      next.focus();
+    } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+      e.preventDefault();
+      const prev = buttons[(idx - 1 + buttons.length) % buttons.length];
+      prev.focus();
+    } else if (e.key === 'Home') {
+      e.preventDefault();
+      buttons[0].focus();
+    } else if (e.key === 'End') {
+      e.preventDefault();
+      buttons[buttons.length - 1].focus();
+    }
+  };
 }
 // --- End weekly --- //
