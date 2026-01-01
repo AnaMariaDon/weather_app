@@ -1,6 +1,5 @@
 @media (min-width: 600px){}
 
-
 * {
   margin: 0;
   padding: 0;
@@ -92,7 +91,7 @@ body{
   margin-right: 10px;
 }
 
-#humidity, #wind{
+ #humidity, #wind{
   font-size: 28px;
   margin-top: -6px;
 }
