@@ -8,142 +8,182 @@ const CITIES = [
   { name: "Lund", country: "SE", lat: 55.7047, lon: 13.1910 },
 ];
 
+// Use consistent key format with 4 decimals
 const WEATHER = {
-// nyckel: "lat,lon"
   "59.3293,18.0686": { temp: 7, description: "Mulet", icon: "clouds.png", updatedAt: "2025-11-02T09:00:00Z" },
-  "57.7089,11.9746": { temp: 8, description: "Lätt regn", icon: "drizzle.png", updatedAt:"2025-11-02T09:00:00Z" },
-  "55.605,13.0038": { temp: 9, description: "Klart", icon: "clear.png", updatedAt: "2025-11-02T09:00:00Z" },
+  "57.7089,11.9746": { temp: 8, description: "Lätt regn", icon: "drizzle.png", updatedAt: "2025-11-02T09:00:00Z" },
+  "55.6050,13.0038": { temp: 9, description: "Klart", icon: "clear.png", updatedAt: "2025-11-02T09:00:00Z" },
   "59.8586,17.6389": { temp: 6, description: "Dis", icon: "rain.png", updatedAt: "2025-11-02T09:00:00Z" },
-  "55.7047,13.191": { temp: 8, description: "Halvklart", icon: "mist.png", updatedAt:"2025-11-02T09:00:00Z" },
+  "55.7047,13.1910": { temp: 8, description: "Halvklart", icon: "mist.png", updatedAt: "2025-11-02T09:00:00Z" },
 };
 
-
-/* Hämta data */
-
 function findCityByName(cityName) {
-  // Loopa igenom alla städer i CITIES-arrayen
   for (let i = 0; i < CITIES.length; i++) {
-    // Jämför stadens namn med det användaren skrev (case-insensitive)
     if (CITIES[i].name.toLowerCase() === cityName.toLowerCase()) {
-      return CITIES[i]; // Om det är en match, returnera stadens objekt
+      return CITIES[i];
     }
   }
-  return null; // Om ingen stad hittas, returnera null
+  return null;
 }
 
 function getWeatherForCity(city) {
-  if (!city) return null; // Om inget stad-objekt skickas in, returnera null direkt
-
-  // Skapa en nyckel av lat och lon, t.ex. "59.3293,18.0686"
-  const key = `${city.lat},${city.lon}`;              
-  // Slå upp väderdata med nyckeln i WEATHER-objektet
-  return WEATHER[key] || null; // Returnera väderdata eller null om inget hittas
+  if (!city) return null;
+  const key = `${city.lat.toFixed(4)},${city.lon.toFixed(4)}`;
+  return WEATHER[key] || null;
 }
 
-
-// TEST - Ta bort sen
-/* console.log("Testing findCityByName...");
-const testCity = findCityByName("Stockholm");
-console.log(testCity);
-
-console.log("Testing getWeatherForCity...");
-const testWeather = getWeatherForCity(testCity);
-console.log(testWeather); */
-
-
-// Hitta staden i mockdatan FUNKTIONER
-
-// funktion displayWeather(stad, väder)
 function displayWeather(city, weather) {
-  
-  // om (inte stad ELLER inte väder)
   if (!city || !weather) {
-    alert("Stad hittades inte!"); // visa popup-meddelande
-    return; // avsluta funktionen här
-  }
-  
-  // hitta HTML-elementet med ID #city och ändra texten till stadens namn
-  document.querySelector('#city').textContent = city.name;
-  document.querySelector('#country').textContent = city.country;
-  document.querySelector('#description').textContent = weather.description;
-  document.querySelector('#temp').textContent = weather.temp + '°C';
-  document.querySelector('#weather-icon').src = "images/" + weather.icon;
-
-    // Bara tid (hh:mm)
-  const time = new Date(weather.updatedAt).toLocaleTimeString('sv-SE', { 
-    hour: '2-digit', 
-    minute: '2-digit' 
-  });
-  
-  document.querySelector('#updated').textContent = time; 
-  
-  
-}
-
-
-// Hämta/hitta sökfält och knapp från HTML
-const searchInput = document.querySelector('.search input');
-const searchButton = document.querySelector('.search button');
-
-
- // Hämta texten användaren skrev in
- /*  const cityName = searchInput.value;
-
-  // Kolla om användaren skrev något
-  if (cityName.trim() === "") {
-    alert("Skriv in ett stadsnamn!");
+    alert("Stad hittades inte!");
     return;
-  } */
-// Funktion som körs när användaren söker
-function searchCity() {
-
-  // Hämta texten och ta bort mellanslag direkt
-const cityName = searchInput.value.trim();
-
-// Kolla om tom
-if (cityName === "") {
-  alert("Skriv in ett stadsnamn!");
-  return;
-}
- 
-  
-  // Hitta staden i CITIES
-  const city = findCityByName(cityName);
-  
-  // Hämta väderdata för staden
-  const weather = getWeatherForCity(city);
-  
-  // Visa vädret på skärmen
-  displayWeather(city, weather);
-}
-
-// När användaren klickar på sökknappen
-searchButton.addEventListener('click', searchCity);
-
-// När användaren trycker Enter i sökfältet
-searchInput.addEventListener('keypress', function(event) {
-  // Om tangenten är Enter
-  if (event.key === 'Enter') {
-    searchCity(); // Kör sökningen
   }
+
+  document.querySelector('#cityNName').textContent = city.name;
+  document.querySelector('#temperature').textContent = weather.temp + '°C';
+  document.querySelector('#description').textContent = weather.description;
+  // Sätt bild i #icon (index.html använder en span)
+  const iconContainer = document.querySelector('#icon');
+  iconContainer.innerHTML = `<img id="weather-icon" src="images/${weather.icon}" alt="${weather.description}">`;
+
+  const time = new Date(weather.updatedAt).toLocaleTimeString('sv-SE', { hour: '2-digit', minute: '2-digit' });
+  document.querySelector('#updatedTime').textContent = time;
+
+  // visa resultat-området (om du har en .hidden-klass)
+  const result = document.querySelector('#weatherResult');
+  if (result) result.classList.remove('hidden');
+}
+
+// Koppla till HTML (index.html använder dessa IDs)
+const searchInput = document.querySelector('#cityInput');
+const searchButton = document.querySelector('#searchBtn');
+
+function searchCity() {
+  const cityName = (searchInput && searchInput.value || '').trim();
+  if (cityName === '') {
+    alert('Skriv in ett stadsnamn!');
+    return;
+  }
+
+   const city = findCityByName(cityName);
+  const weather = getWeatherForCity(city);
+  displayWeather(city, weather);
+
+  // rendera veckoprognos baserat på vald stad
+  const weekly = getWeeklyMockForCity(city);
+  renderWeeklyForecast(weekly);
+}
+
+if (searchButton) searchButton.addEventListener('click', searchCity);
+if (searchInput) {
+   searchInput.addEventListener('keypress', function(event) {
+  if (event.key === 'Enter') searchCity();
+});
+}
+
+const searchForm = document.querySelector('#searchForm');
+if (searchForm) searchForm.addEventListener('submit', function(e) {
+  e.preventDefault();
+  searchCity();
 });
 
+// --- Weekly forecast (mock) --- //
+function generateWeeklyFromCurrent() {
+  const result = {};
+  const now = Math.floor(Date.now() / 1000);
+  CITIES.forEach(city => {
+    const key = `${city.lat.toFixed(4)},${city.lon.toFixed(4)}`;
+    const base = WEATHER[key] || {};
+    const baseTemp = typeof base.temp === 'number' ? base.temp : 8;
+    const baseDesc = base.description || 'Varierande';
+    const baseIcon = base.icon || 'clouds.png';
+    const days = [];
+    for (let i = 0; i < 7; i++) {
+      const dt = now + i * 86400;
+      const variance = (i % 5) - 2; // -2..+2 deterministic
+      const max = baseTemp + variance + 1;
+      const min = baseTemp + variance - 3;
+      days.push({
+        dt,
+        temp: { max, min },
+        weather: [{ description: baseDesc, icon: baseIcon }]
+      });
+    }
+    result[key] = days;
+  });
+  return result;
+}
+const WEEKLY = generateWeeklyFromCurrent();
+
+function getWeeklyMockForCity(city) {
+  if (!city) return [];
+  const key = `${city.lat.toFixed(4)},${city.lon.toFixed(4)}`;
+  return WEEKLY[key] || [];
+}
+
+function formatDay(dtUnix) {
+  const day = new Date(dtUnix * 1000)
+    .toLocaleDateString('sv-SE', { weekday: 'long', day: 'numeric', month: 'short' });
+
+return day.charAt(0).toUpperCase() + day.slice(1);
+}
 
 
-
-
-/*   const apiUrl = "https://api.open-meteo.com/v1/forecast?latitude=52.52&longitude=13.41&hourly=temperature_2m,relative_humidity_2m,wind_speed_10m&models=dmi_seamless";
-  async function checkWeather(){
-    const response = await fetch(apiUrl);
-    var data = await response.json();
-
-    console.log(data)
-
-   // document.querySelector(".city").innerHTML = data. + 
-   document.querySelector(".temp").innerHTML = data.hourly_units.temperature_2m;
-   document.querySelector(".wind").innerHTML = data.hourly_units.wind_speed_10m + "km/h";
-   document.querySelector(".humidity").innerHTML = data.hourly_units.relative_humidity_2m + "%";
-
+function renderWeeklyForecast(daily) {
+  const grid = document.getElementById('weeklyGrid');
+  const container = document.getElementById('weekly');
+  if (!grid || !container) return;
+  if (!daily || daily.length === 0) {
+    container.classList.add('hidden');
+    grid.innerHTML = '';
+    return;
   }
+  grid.innerHTML = daily.map((d, i) => {
+    const icon = d.weather[0].icon;
+    const desc = d.weather[0].description;
+    const label = `Prognos ${formatDay(d.dt)}: ${Math.round(d.temp.max)}° / ${Math.round(d.temp.min)}°, ${desc}`;
+    return `
+      <button class="day" type="button" data-index="${i}" aria-label="${label}">
+        <div class="day-name">${formatDay(d.dt)}</div>
+        <img src="images/${icon}" alt="${desc}">
+        <div class="temp">${Math.round(d.temp.max)}° / ${Math.round(d.temp.min)}°</div>
+        <small>${desc}</small>
+      </button>`;
+  }).join('');
+  container.classList.remove('hidden');
 
-  checkWeather(); */
+  // Click handler (replace previous handlers to avoid duplicates)
+  grid.onclick = function(e) {
+    const btn = e.target.closest('.day');
+    if (!btn) return;
+    document.querySelectorAll('.day').forEach(d=>d.classList.remove('active'));
+    btn.classList.add('active');
+    // Optionally: focus stays on the button, or you could show detail info
+  };
+
+  // Arrow-key navigation for weekly buttons
+  grid.onkeydown = function(e) {
+    const keys = ['ArrowRight','ArrowLeft','ArrowDown','ArrowUp','Home','End'];
+    if (!keys.includes(e.key)) return;
+    const buttons = Array.from(grid.querySelectorAll('.day'));
+    if (buttons.length === 0) return;
+    const current = document.activeElement;
+    let idx = buttons.indexOf(current);
+    if (idx === -1) return;
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+      e.preventDefault();
+      const next = buttons[(idx + 1) % buttons.length];
+      next.focus();
+    } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+      e.preventDefault();
+      const prev = buttons[(idx - 1 + buttons.length) % buttons.length];
+      prev.focus();
+    } else if (e.key === 'Home') {
+      e.preventDefault();
+      buttons[0].focus();
+    } else if (e.key === 'End') {
+      e.preventDefault();
+      buttons[buttons.length - 1].focus();
+    }
+  };
+}
+// --- End weekly --- //
