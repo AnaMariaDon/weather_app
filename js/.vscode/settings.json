@@ -1,0 +1,9 @@
+
+{
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "liveServer.settings.port": 5500,
+    "editor.tabSize": 2,
+    "editor.fontSize": 14
+}
+

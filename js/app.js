@@ -1,149 +1,131 @@
-/* Mockup-data (Javascript) */
-
-const CITIES = [
-  { name: "Stockholm", country: "SE", lat: 59.3293, lon: 18.0686 },
-  { name: "Göteborg", country: "SE", lat: 57.7089, lon: 11.9746 },
-  { name: "Malmö", country: "SE", lat: 55.6050, lon: 13.0038 },
-  { name: "Uppsala", country: "SE", lat: 59.8586, lon: 17.6389 },
-  { name: "Lund", country: "SE", lat: 55.7047, lon: 13.1910 },
-];
-
-const WEATHER = {
-// nyckel: "lat,lon"
-  "59.3293,18.0686": { temp: 7, description: "Mulet", icon: "clouds.png", updatedAt: "2025-11-02T09:00:00Z" },
-  "57.7089,11.9746": { temp: 8, description: "Lätt regn", icon: "drizzle.png", updatedAt:"2025-11-02T09:00:00Z" },
-  "55.605,13.0038": { temp: 9, description: "Klart", icon: "clear.png", updatedAt: "2025-11-02T09:00:00Z" },
-  "59.8586,17.6389": { temp: 6, description: "Dis", icon: "rain.png", updatedAt: "2025-11-02T09:00:00Z" },
-  "55.7047,13.191": { temp: 8, description: "Halvklart", icon: "mist.png", updatedAt:"2025-11-02T09:00:00Z" },
-};
+import { MOCK_WEATHER } from './mock_weather.js';
 
 
-/* Hämta data */
+const searchField = document.getElementById('search-field');
+const searchBtn = document.getElementById('search-button');
 
-function findCityByName(cityName) {
-  // Loopa igenom alla städer i CITIES-arrayen
-  for (let i = 0; i < CITIES.length; i++) {
-    // Jämför stadens namn med det användaren skrev (case-insensitive)
-    if (CITIES[i].name.toLowerCase() === cityName.toLowerCase()) {
-      return CITIES[i]; // Om det är en match, returnera stadens objekt
-    }
-  }
-  return null; // Om ingen stad hittas, returnera null
-}
-
-function getWeatherForCity(city) {
-  if (!city) return null; // Om inget stad-objekt skickas in, returnera null direkt
-
-  // Skapa en nyckel av lat och lon, t.ex. "59.3293,18.0686"
-  const key = `${city.lat},${city.lon}`;              
-  // Slå upp väderdata med nyckeln i WEATHER-objektet
-  return WEATHER[key] || null; // Returnera väderdata eller null om inget hittas
-}
+const displayText = document.getElementById('display-text');
 
 
-// TEST - Ta bort sen
-/* console.log("Testing findCityByName...");
-const testCity = findCityByName("Stockholm");
-console.log(testCity);
-
-console.log("Testing getWeatherForCity...");
-const testWeather = getWeatherForCity(testCity);
-console.log(testWeather); */
-
-
-// Hitta staden i mockdatan FUNKTIONER
-
-// funktion displayWeather(stad, väder)
-function displayWeather(city, weather) {
-  
-  // om (inte stad ELLER inte väder)
-  if (!city || !weather) {
-    alert("Stad hittades inte!"); // visa popup-meddelande
-    return; // avsluta funktionen här
-  }
-  
-  // hitta HTML-elementet med ID #city och ändra texten till stadens namn
-  document.querySelector('#city').textContent = city.name;
-  document.querySelector('#country').textContent = city.country;
-  document.querySelector('#description').textContent = weather.description;
-  document.querySelector('#temp').textContent = weather.temp + '°C';
-  document.querySelector('#weather-icon').src = "images/" + weather.icon;
-
-    // Bara tid (hh:mm)
-  const time = new Date(weather.updatedAt).toLocaleTimeString('sv-SE', { 
-    hour: '2-digit', 
-    minute: '2-digit' 
-  });
-  
-  document.querySelector('#updated').textContent = time; 
-  
-  
-}
-
-
-// Hämta/hitta sökfält och knapp från HTML
-const searchInput = document.querySelector('.search input');
-const searchButton = document.querySelector('.search button');
-
-
- // Hämta texten användaren skrev in
- /*  const cityName = searchInput.value;
-
-  // Kolla om användaren skrev något
-  if (cityName.trim() === "") {
-    alert("Skriv in ett stadsnamn!");
-    return;
-  } */
-// Funktion som körs när användaren söker
-function searchCity() {
-
-  // Hämta texten och ta bort mellanslag direkt
-const cityName = searchInput.value.trim();
-
-// Kolla om tom
-if (cityName === "") {
-  alert("Skriv in ett stadsnamn!");
-  return;
-}
- 
-  
-  // Hitta staden i CITIES
-  const city = findCityByName(cityName);
-  
-  // Hämta väderdata för staden
-  const weather = getWeatherForCity(city);
-  
-  // Visa vädret på skärmen
-  displayWeather(city, weather);
-}
-
-// När användaren klickar på sökknappen
-searchButton.addEventListener('click', searchCity);
-
-// När användaren trycker Enter i sökfältet
-searchInput.addEventListener('keypress', function(event) {
-  // Om tangenten är Enter
+// LYSSNARE Searchfield = key down & click
+searchField.addEventListener('keydown', (event) => {
   if (event.key === 'Enter') {
-    searchCity(); // Kör sökningen
+    let searchValue = searchField.value;
+    searchField.value = '';
+
+    displayText.innerHTML = returnDisplayText(MOCK_WEATHER[searchValue], searchValue);
+    addBoxData(MOCK_WEATHER[searchValue], searchValue);
+
   }
+
+});
+
+searchBtn.addEventListener('click', (event) => {
+  let searchValue = searchField.value;
+  searchField.value = '';
+
+  displayText.innerHTML = returnDisplayText(MOCK_WEATHER[searchValue], searchValue);
+  addBoxData(MOCK_WEATHER[searchValue], searchValue);
 });
 
 
+let tempC 
+let tempF
 
+// Function to modify Display-text
+function returnDisplayText(data, city) {
+  let unit = '<i class="ri-celsius-line"></i>';
+  let temp = data.tempC;
+  tempC = temp;
 
-
-/*   const apiUrl = "https://api.open-meteo.com/v1/forecast?latitude=52.52&longitude=13.41&hourly=temperature_2m,relative_humidity_2m,wind_speed_10m&models=dmi_seamless";
-  async function checkWeather(){
-    const response = await fetch(apiUrl);
-    var data = await response.json();
-
-    console.log(data)
-
-   // document.querySelector(".city").innerHTML = data. + 
-   document.querySelector(".temp").innerHTML = data.hourly_units.temperature_2m;
-   document.querySelector(".wind").innerHTML = data.hourly_units.wind_speed_10m + "km/h";
-   document.querySelector(".humidity").innerHTML = data.hourly_units.relative_humidity_2m + "%";
-
+  if (checkbox.checked) {
+    unit = '<i class="ri-fahrenheit-line"></i>';
+    temp = convertTemperature(data.tempC);
+    tempF = temp;
   }
 
-  checkWeather(); */
+  return `<p>Idag klockan ${data.updated} i ${city} är det ${data.description} med en temperatur på <span id="display-temp">${temp}</span> <span id="display-unit">${unit}</span> grader.</p>`
+}
+
+
+// Function to modify Boxes
+function addBoxData(data, city) {
+  // FIRST box
+  const temp = document.getElementById('temp');
+  temp.textContent = data.tempC;
+
+  const unitType = document.getElementById('unit');
+  const unitDescription = document.getElementById('toggle-scale');
+  let unit = '<i class="ri-celsius-line"></i>';
+  unitDescription.textContent = 'Celsius';
+
+  if (checkbox.checked) {
+    unit = '<i class="ri-fahrenheit-line"></i>';
+    unitDescription.textContent = 'Fahrenheit';
+
+    temp.textContent = convertTemperature(data.tempC);
+  };
+
+  unitType.innerHTML = unit;
+
+  // MIDDLE box
+  const icon = document.getElementById('icon');
+  icon.textContent = data.icon;
+
+  const weather = document.getElementById('weather');
+  weather.textContent = data.description;
+
+  // LAST box
+
+  const time = document.getElementById('time');
+  time.textContent = data.updated
+
+  const location = document.getElementById('location')
+  location.textContent = city
+}
+
+
+
+// Toggle temp
+const checkbox = document.getElementById("unitSwitch"); // Hämtar checkbox-elementet från HTML med id "unitSwitch"
+
+/*
+
+
+
+checkbox.addEventListener('change', () => {
+  const displayTemp = document.getElementById('display-temp');
+  const displayUnit = document.getElementById('display-unit');
+
+  displayTemp.textContent = convertTemperature(tempC);
+  displayUnit.innerHTML = '<i class="ri-fahrenheit-line"></i>';
+} )
+
+
+*/
+
+
+
+
+
+
+
+
+
+// TEMPERATURE UNIT CONVERT (c/f)
+
+
+function convertTemperature(temperature) {
+  // Skapar en funktion som konverterar temperatur mellan Celsius och Fahrenheit
+
+  let fahrenheit = checkbox.checked; // Kontrollerar om checkboxen är markerad; true om markerad, false annars
+  if (!fahrenheit) {
+    // Om checkboxen är markerad
+
+    return Math.round(((temperature - 32) * 5 / 9) * 10) / 10; // Konvertera från Fahrenheit till Celsius och runda till en decimal // Formeln: (F - 32) * 5/9
+  } else {
+    // Om checkboxen inte är markerad (inputen är i Celsius)
+    return Math.round((temperature * (9 / 5) + 32) * 10) / 10; // Konvertera från Celsius till Fahrenheit och runda till en decimal // Formeln: C * 9/5 + 32
+  }
+}
+

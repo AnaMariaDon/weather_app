@@ -13,7 +13,7 @@ body{
 
 .card {
   width: 90%;
-  max-width: 470px;
+  max-width: 770px;
   background: linear-gradient(135deg, #00feba, #5b548a);
   color: #fff;
   margin: 100px auto 0;
@@ -56,7 +56,7 @@ body{
   width: 16px;
 }
 
-#weather-icon{
+.weather-icon{
   width:170px;
   margin-top: 30px;
 }
@@ -91,7 +91,7 @@ body{
   margin-right: 10px;
 }
 
- #humidity, #wind{
+ .humidity, .wind{
   font-size: 28px;
   margin-top: -6px;
 }
@@ -166,4 +166,11 @@ body{
 .unit-switch__input:checked + .unit-switch__track::after {
   transform: translateX(24px);
   background-color: #5b548a;
+}
+
+#temp, #city {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  color: red !important;
 }

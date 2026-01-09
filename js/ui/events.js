@@ -1,6 +1,6 @@
 
 import { cityInput, searchButton, weatherOutput } from "./domElements.js";
-import { weatherService } from "../main.js";
+//import { weatherService } from "../main.js";
 
 export function setupEvents() {
   searchButton.addEventListener("click", async () => {
