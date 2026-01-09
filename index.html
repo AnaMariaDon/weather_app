@@ -7,11 +7,17 @@
     <link rel="stylesheet" href="./css/style.css" />
   </head>
   <body>
+
+
+
     <div class="card">
       <div class="search">
         <input id="city-input" name="city"  type="text" placeholder="enter city name" spellcheck="false" />
-        <button><img src="images/search.png" /></button>
+        <button id="searchButton"><img src="images/search.png" /></button>
+
       </div>
+
+
 
         <div class="header__unit">
             <span class="unit-label left">CELSIUS</span>
@@ -31,11 +37,26 @@
 
         </div>
 
-      <div class="weather">
+
+        <div class="weather-info">
+    <img src="images/rain.png" class="weather-icon" alt="Weather Icon">
+    
+   <!--<h1 id="temp">--°C</h1>
+    <h2 id="city">Sök efter en stad</h2>-->
+</div>
+
+     <!-- <div class="weather">
         <img src="./images/rain.png" id="weather-icon" />
-        <!-- <div id="weather-icon">☁️</div> -->
-        <h1 id="temp"></h1>
-        <h2 id="city"></h2>
+         <div id="weather-icon">☁️</div> -->
+
+
+        <!--<h1 id="temp"></h1>
+        <h2 id="city"></h2>-->
+<!--<div class="weather-info">
+  <img src="images/rain.png" class="weather-icon" alt="Weather Icon">-->
+  <h1 id="temp">--°C</h1>
+  <h2 id="city">Sök efter en stad</h2>
+
         <p id="country"></p>
         <p id="description"></p>
         <p id="updated"></p>
@@ -58,6 +79,6 @@
       </div>
     </div>
 
-    <script defer src="./main.js" type="module"></script>
+    <script defer src="./js/main.js" type="module"></script>
   </body>
 </html>
